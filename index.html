@@ -174,7 +174,7 @@ map.legendControl.addLegend(document.getElementById('legend').innerHTML);
 var layers = document.getElementById('menu-ui');
 
 addLayer(L.mapbox.tileLayer('iconeng.douglas_prelim'), 'Prelim Submittal', 1);
-addLayer(L.mapbox.tileLayer('iconeng.j74a1fdn'), 'Changes from Effective', 2);
+waitLayer(L.mapbox.tileLayer('iconeng.j74a1fdn'), 'Changes from Effective', 2);
 addLayer(L.mapbox.tileLayer('iconeng.douglas_bfe'), 'BFEs', 3);
 addLayer(L.mapbox.tileLayer('iconeng.jbh7ano7'), 'Cross Sections', 4);
 addLayer(L.mapbox.tileLayer('iconeng.douglas_firmpan'), 'Firm Panels', 5);
@@ -211,6 +211,36 @@ function addLayer(layer, name, zIndex) {
 
     layers.appendChild(link);
 }
+
+function waitLayer(layer, name, zIndex) {
+    layer
+        .setZIndex(zIndex);
+        
+        
+
+    // Create a simple layer switcher that
+    // toggles layers on and off.
+    var link = document.createElement('a');
+        link.href = '#';
+        link.className = '';
+        link.innerHTML = name;
+
+    link.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (map.hasLayer(layer)) {
+            map.removeLayer(layer);
+            this.className = '';
+        } else {
+            map.addLayer(layer);
+            this.className = 'active';
+        }
+    };
+
+    layers.appendChild(link);
+}
+
 </script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
